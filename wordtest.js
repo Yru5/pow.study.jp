@@ -33,6 +33,34 @@ var wordlist = [];//表示した配列
 
 var cate = 0;//表示するリストを3津からランダムに選ぶ
 var answer = 0;//正解の選択肢
+var qa1;
+var qa2;
+var qa3;
+
+function f_answer(){	
+	document.flash.b_start.disabled = false;
+	document.flash.b_answer.disabled = true;
+	if(document.flash.example3[0].checked){
+		document.flash.set3.value = "1";
+	}else if(document.flash.example3[1].checked){
+		document.flash.set3.value = "1.5";
+	}else{
+		document.flash.set3.value = "0.5";
+	}
+	for(var i=0; i<document.flash.example1.length-1;i++){
+        // i番目のラジオボタンがチェックされているかを判定
+        if(document.flash.example1[i].checked){ 
+            qa1 = document.flash.example1[i].value;
+        }
+		if(document.flash.example2[i].checked){ 
+            qa2 = document.flash.example2[i].value;
+        }
+		if(document.flash.example3[i].checked){ 
+            qa3 = document.flash.example3[i].value;
+        }
+    }
+	console.log(qa1);
+}
 
 function f_start(){
 	if(flag == 0){
@@ -205,17 +233,35 @@ function f_choose(){
 		cho = [fake,wordlist[answer],category[cate]];
 	}
 
+//送信するデータ
+//押されたボタン
 	const postbtn = document.createElement("input");
 	postbtn.type = "hidden";
 	postbtn.name = "pbtn";
+//表示されたカテゴリ
 	const postcategory = document.createElement("input");
 	postcategory.type = "hidden";
 	postcategory.name = "pcate";
+//性別
+	const gen = document.createElement("input");
+	gen.type = "hidden";
+	gen.name = "gen";
+	gen.value = qa1;
+//年齢
+	const age = document.createElement("input");
+	age.type = "hidden";
+	age.name = "age";
+	age.value = qa2;
+//難易度
 	const s3 = document.createElement("input");
 	s3.type = "hidden";
 	s3.name = "s3";
-	s3.value = set[2];
-
+	s3.value = qa3;
+//正解不正解
+	const co = document.createElement("input");
+	co.type = "hidden";
+	co.name = "co";
+	
    	for(let j=0; j<3; j++){
 		const newBtn = document.createElement("button");
 		newBtn.classList.add("nbutton");
@@ -226,8 +272,10 @@ function f_choose(){
 			postcategory.value = category[cate];
 			postbtn.value = newBtn.innerHTML;
 			if(newBtn.innerHTML == wordlist[answer]){
+				co.value = "正解";
 				alert("正解!");
 			}else{
+				co.value = "正解";
 				alert("不正解！");
 			}
 			document.flash.b_start.value = "start";
@@ -237,6 +285,9 @@ function f_choose(){
 	    flash.appendChild(newBtn);
 	    flash.appendChild(postbtn);
 	    flash.appendChild(postcategory);
+		flash.appendChild(gen);
+		flash.appendChild(age);
 	    flash.appendChild(s3);
+	    flash.appendChild(co);
 	}
 }
